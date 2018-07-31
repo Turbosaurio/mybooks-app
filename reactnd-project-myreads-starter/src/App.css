@@ -22,7 +22,7 @@ body, .app {
 }
 
 .list-books-content {
-  padding: 0 0 80px;
+  padding: 0 0 25px;
   flex: 1;
 }
 
@@ -32,7 +32,7 @@ body, .app {
 
 @media (min-width: 600px) {
   .bookshelf {
-    padding: 0 20px 40px;
+    padding: 0 20px;
   }
 }
 
@@ -139,7 +139,11 @@ body, .app {
   display: flex;
   align-items: flex-end;
 }
-
+.bookshelf{
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
 .book-shelf-changer {
   position: absolute;
   right: 0;
@@ -171,4 +175,24 @@ body, .app {
   padding: 20px 10px 0;
   text-align: center;
   font-size: 0.8em;
+}
+
+
+.slide-book article{
+  display: flex;
+  justify-content: center;
+}
+
+.slick-arrow:before{
+  display: block;
+  width: 15px;
+  height: 15px;
+  border-left: 3px solid black;
+  border-top: 3px solid black;
+}
+.slick-prev:before{
+  transform: rotate(-45deg);
+}
+.slick-next:before{
+  transform: rotate(135deg);
 }
