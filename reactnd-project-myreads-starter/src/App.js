@@ -6,6 +6,23 @@ import * as BooksAPI from './BooksAPI'
 
 import BookShelf from './books_components/BookShelf'
 
+
+const shelvesNames = [
+	{
+		name: "Currently Reading",
+		keyName: "currentlyReading"
+	},
+	{
+		name: "Want to Read",
+		keyName: "wantToRead"
+	},
+	{
+		name: "Read",
+		keyName: "read"
+	},
+]
+
+console.log(shelvesNames.filter((name) => name.keyName !== 'currentlyReading'))
 class BooksApp extends React.Component {
 	state = {
 		/**
@@ -37,6 +54,12 @@ class BooksApp extends React.Component {
 			})
 	}
 
+	changeBookFromShelf (bookShelf){
+		this.setState(() => ({
+			shelf: bookShelf
+		}))
+	}
+
 	render() {
 		return (
 			<div className="app">
@@ -47,21 +70,16 @@ class BooksApp extends React.Component {
 						<h1>MyReads</h1>
 					</div>
 
-					<BookShelf 
-						bookList={this.state.currentlyReading}
-						shelfTitle="Currently Reading"
-						ariaTitle="currentlyReading"
-					/>
-					<BookShelf 
-						bookList={this.state.wantToRead}
-						shelfTitle="Want to read"
-						ariaTitle="wanToRead"
-					/>
-					<BookShelf 
-						bookList={this.state.read}
-						shelfTitle="Read"
-						ariaTitle="read"
-					/>
+					{shelvesNames.map((shelf, index) => (
+						<BookShelf 
+							shelvesNames={shelvesNames}
+							key={index}
+							bookList={this.state[shelf.keyName]}
+							shelfTitle={shelf.name}
+							keyName={shelf.keyName}
+						/>
+					))}
+
 				</div>
 
 
