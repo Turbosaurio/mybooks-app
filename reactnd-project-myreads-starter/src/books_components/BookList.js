@@ -21,17 +21,11 @@ export default function BookList (props) {
 			/>
 		</div>
 	))
-	if(props.slider){
-		return(
-			<div className="bookshelf-books">
-				<Slider {...slickOptions}>{list}	</Slider>
-			</div>
-		)
-	} else {
-		return(
-			<div className="bookshelf-books">
-				<ol>{list}</ol>
-			</div>
-		)
-	}
+
+	const books_list = props.slider
+		? <Slider {...slickOptions}>{list}</Slider>
+		: <ol>{list}</ol>
+
+	return <div className="bookshelf-books">{books_list}</div>
+	
 }
