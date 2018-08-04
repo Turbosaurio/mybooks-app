@@ -8,7 +8,7 @@ export default function BookShelf (props){
 			<div>
 				<section className="bookshelf" aria-labelledby={`${keyName}_header`}>
 					<h2 id={`${keyName}_header`} className="bookshelf-title">{shelfTitle}</h2>
-					<BookList contents={bookList} keyName={keyName} shelvesNames={shelvesNames} slider={() => bookList > 2}/>
+					<BookList contents={bookList} keyName={keyName} shelvesNames={shelvesNames} all="false"/>
 				</section>
 			</div>
 		</div>

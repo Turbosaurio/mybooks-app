@@ -15,7 +15,7 @@ export default class Book extends Component{
 				<div className="book">
 					<div className="book-top">
 						<div className="book-cover" style={style}></div>
-						<BookSelect options={shelvesNames.filter((name) => name.keyName !== keyName )}/>
+						<BookSelect options={shelvesNames} keyName={keyName}/>
 					</div>
 					<h3 className="book-title" id={`${bookId}_name`}>{title}</h3>
 					<div className="book-authors">{authors}</div>

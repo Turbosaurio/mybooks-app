@@ -77,7 +77,7 @@ class BooksApp extends React.Component {
 								<BookShelf 
 									shelvesNames={shelvesNames}
 									key={index}
-									bookList={this.state[shelf.keyName]}
+									bookList={this.state.books}
 									shelfTitle={shelf.name}
 									keyName={shelf.keyName}
 								/>
@@ -88,7 +88,11 @@ class BooksApp extends React.Component {
 						</div>
 						)
 					: (
-							<SearchBook onClose={this.handleCloseSearch} bookList={this.state.books}/>
+							<SearchBook
+								onClose={this.handleCloseSearch}
+								bookList={this.state.books}
+								shelvesNames={shelvesNames}
+							/>
 						)
 				}
 

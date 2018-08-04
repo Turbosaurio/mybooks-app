@@ -1,27 +1,37 @@
 import React, {Component} from 'react'
 
 import * as BooksAPI from  '../BooksAPI'
-// import BookList from './BookList'
-// import Book from './Book'
+import BookList from './BookList'
+import Book from './Book'
 
 export default class SearchBook extends Component{
 	state = {
 		search: '',
-		bookList : []
+		filteredList : []
 	}
 
 	handleChange = event => {
-		this.setState({ search: event.target.value })
-		BooksAPI.search(event.target.value)
-			.then((books) => {
-				this.setState({bookList: books.id})
-			})
+		const filterKeys = ['title', 'authors']
+		let query = event.target.value
+		let {bookList} = this.props
+		this.setState({search: query})
+		let filtered = bookList.filter( (c) => 
+			c.authors.toString().toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+			c.title.toLowerCase().indexOf(query.toLowerCase()) !== -1
+		)
+		this.setState({filteredList: filtered })
 	};
-
-	
-	
+	componentDidMount(){
+	BooksAPI.getAll()
+			.then((books) => {
+				this.setState(() => ({
+					filteredList: books,
+				}))
+			})
+	}
 
 	render(){
+		let {filteredList} = this.state
 		return(
 			<div className="search-books">
 				<div className="search-books-bar">
@@ -37,6 +47,9 @@ export default class SearchBook extends Component{
 							onChange={this.handleChange}
 						/>
 					</div>
+				</div>
+				<div className="book-search-list">
+					<BookList contents={filteredList} keyName="none" shelvesNames={this.props.shelvesNames}/>
 				</div>
 			</div>
 		)
