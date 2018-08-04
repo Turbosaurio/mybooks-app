@@ -1,8 +1,14 @@
 # mybooks-app
 udacity react project
 
+## How to start
+Run
+```
+npm install
+npm start
+```
 
-## Components planning
+## Project planning
 * BooksApp
 	
 	1. State with:
@@ -20,7 +26,8 @@ udacity react project
 		* Button
 
 	4. Functions
-		1. Search book with filtered books list displayed below
+		1. Search book
+		2. filtered books list
 		3. Move Book
 
 	5. Additional features
