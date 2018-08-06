@@ -2,19 +2,16 @@ import React from 'react'
 import Book from './Book'
 
 export default function BookList (props) {
-	let {contents, keyName, shelvesNames, all} = props;
-	const filtered_list = all
+	let {contents, keyName, shelvesNames, all, moveBook} = props;
+	const filtered_list = all === false
 		? contents.filter((book) => book.shelf === keyName)
 		: contents
 	const list = filtered_list.map((book) =>(
 		<div className="slide-book" key={book.id}>
 			<Book
-				bookId={book.id}
-				image={book.imageLinks.thumbnail}
-				title={book.title}
-				authors={book.authors}
+				book_data={book}
 				shelvesNames={shelvesNames}
-				keyName={book.shelf}
+				moveBook={moveBook}
 			/>
 		</div>
 	))
