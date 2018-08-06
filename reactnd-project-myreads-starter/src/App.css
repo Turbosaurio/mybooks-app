@@ -170,6 +170,10 @@ body, .app {
 .book-cover {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   background: #eee;
+  background-color: #eee;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center
 }
 .book-cover-title {
   padding: 20px 10px 0;
@@ -199,4 +203,16 @@ body, .app {
 
 .book-search-list{
   margin-top: 100px;
+}
+
+.search-results-empty{
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-align: center;
+  color: rgb(200,200,200);
+}
+
+option.current-book{
+  background-color: rgb(100,100,100);
+  color: white;
 }
