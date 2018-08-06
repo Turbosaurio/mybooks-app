@@ -18,6 +18,24 @@ export default class SearchBook extends Component{
 		}
 	}
 
+
+	updateBookShelf = (id, shelf) =>{
+		let newBooks = this.state.filteredBooks
+		let counter = 0
+		for(let book of newBooks){
+			if(book.id === id){
+				newBooks[counter].shelf = shelf
+				BooksAPI.update(book, shelf)
+					.then(()=>	this.setState({filtered: newBooks}))
+					.catch((error) => {
+						console.log(error)
+					})
+				break				
+			}
+			counter++
+		}
+	}
+
 	render(){
 		let {filteredBooks} = this.state
 		return(
@@ -43,7 +61,7 @@ export default class SearchBook extends Component{
 				 				contents={filteredBooks}
 				 				keyName={'all'}
 				 				shelvesNames={this.props.shelvesNames}
-				 				moveBook={this.props.moveBook}
+				 				moveBook={this.updateBookShelf}
 				 			/>					 		
 					 	}
 					 	</ol>
