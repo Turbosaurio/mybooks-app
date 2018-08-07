@@ -1,43 +1,32 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-import * as BooksAPI from  '../BooksAPI'
 import BookList from './BookList'
+import debounce from 'lodash.debounce'
 
 export default class SearchBook extends Component{
-	state = {
-		search: '',
-		filteredBooks: []
+	constructor(props){
+		super(props)
+		this.handleChange = this.handleChange.bind(this)
+		this.emitChangeDebounced = debounce(this.emitChange, 250);
+		this.state = {
+			search: '',
+		}
 	}
 
 	handleChange = event => {
 		this.setState({search: event.target.value})
-		if (this.state.search !== ''){
-			BooksAPI.search(this.state.search).then(results => {
-				this.setState({filteredBooks: results})
-			})
-		}
+		this.emitChangeDebounced(this.state.search)
 	}
 
-
-	updateBookShelf = (id, shelf) =>{
-		let newBooks = this.state.filteredBooks
-		let counter = 0
-		for(let book of newBooks){
-			if(book.id === id){
-				newBooks[counter].shelf = shelf
-				BooksAPI.update(book, shelf)
-					.then(()=>	this.setState({filtered: newBooks}))
-					.catch((error) => {
-						console.log(error)
-					})
-				break				
-			}
-			counter++
-		}
+	emitChange(value) {
+		this.props.updateFilteredBooks(value)
 	}
+
+	componentWillUnmount() {
+    this.emitChangeDebounced.cancel();
+  }
 
 	render(){
-		let {filteredBooks} = this.state
 		return(
 			<section className="search-books" aria-label="Search for book">
 				<div className="search-books-bar">
@@ -52,16 +41,15 @@ export default class SearchBook extends Component{
 					</div>
 				</div>
 				<div className="book-search-list">
-				 
-				{this.state.search !== '' && this.state.filteredBooks.length > 0
+				{this.state.search !== '' && this.props.bookList
 					?(
 					 	<ol className="books-grid">
 					 	{
 				 			<BookList
-				 				contents={filteredBooks}
+				 				contents={this.props.bookList}
 				 				keyName={'all'}
 				 				shelvesNames={this.props.shelvesNames}
-				 				moveBook={this.updateBookShelf}
+				 				moveBook={this.props.moveBook}
 				 			/>					 		
 					 	}
 					 	</ol>
