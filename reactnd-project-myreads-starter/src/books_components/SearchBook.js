@@ -41,7 +41,7 @@ export default class SearchBook extends Component{
 					</div>
 				</div>
 				<div className="book-search-list">
-				{this.state.search !== '' && this.props.bookList
+				{this.state.search !== ''
 					?(
 					 	<ol className="books-grid">
 					 	{

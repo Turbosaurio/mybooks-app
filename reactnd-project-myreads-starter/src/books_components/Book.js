@@ -23,7 +23,13 @@ export default function Book (props){
 					<div className="book-cover" style={style}></div>
 					<BookSelect
 						options={shelvesNames}
-						keyName={shelf}
+						keyName={() =>{
+							if(!shelf || shelf === 'none'){
+								return "None"
+							}else{
+								return shelf
+							}
+						}}
 						moveBook={moveBook}
 						book_data={props.book_data}
 					/>

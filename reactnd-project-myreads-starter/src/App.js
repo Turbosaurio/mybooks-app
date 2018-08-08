@@ -1,9 +1,9 @@
 import React from 'react'
 import './App.css'
 import * as BooksAPI from './BooksAPI'
+
+import PropTypes from 'prop-types'
 import {Route, Link} from 'react-router-dom'
-
-
 
 import BookShelf from './books_components/BookShelf'
 import SearchBook from './books_components/SearchBook'
@@ -23,7 +23,9 @@ class BooksApp extends React.Component {
 			if(book.id === id){
 				newBooks[counter].shelf = shelf
 				BooksAPI.update(book, shelf)
-					.then((result)=> this.setState({[stateKey]: newBooks}))
+					.then((result)=> {
+						this.setState({[stateKey]: newBooks})
+					})
 					.then(()=> {
 						console.log(`${book.title} book moved to ${shelf}`)
 					})
@@ -45,11 +47,13 @@ class BooksApp extends React.Component {
 	updateFilteredBooks = query =>{
 		if(query !== ''){
 			BooksAPI.search(query)
-				.then(results =>{
-					this.setState({filteredBooks: results })
-				})
-				.catch((body) => {
-					console.log(body)
+				.then(results => {
+					if(results.error !== 'empty query'){
+						this.setState({filteredBooks: results })
+					} else {
+						this.setState({filteredBooks: [] })
+						console.log('empty query');
+					}
 				})
 		}
 	}
@@ -68,7 +72,12 @@ class BooksApp extends React.Component {
 	}
 
 	render() {
-		let {books} = this.state
+		let {books, filteredBooks} = this.state
+		const shelves = [
+			['Currently Reading', 'currentlyReading'],
+			['Want to Read', 'wantToRead'],
+			['Read', 'read']
+		]
 		return (
 			<div className="app">
 				<Route exact path="/" render={()=> (
@@ -76,24 +85,17 @@ class BooksApp extends React.Component {
 						<div className="list-books-title">
 							<h1>MyReads</h1>
 						</div>
-						<BookShelf 
-							bookList={books}
-							shelfTitle="Currently Reading"
-							keyName="currentlyReading"
-							moveBook={this.updateBookInShelf}
-						/>
-						<BookShelf 
-							bookList={books}
-							shelfTitle="Want To Read"
-							keyName="wantToRead"
-							moveBook={this.updateBookInShelf}
-						/>
-						<BookShelf 
-							bookList={books}
-							shelfTitle="Read"
-							keyName="read"
-							moveBook={this.updateBookInShelf}
-						/>
+						{
+							shelves.map((shelf, index) =>
+								<BookShelf 
+									key={index}
+									bookList={books}
+									shelfTitle={shelf[0]}
+									keyName={shelf[1]}
+									moveBook={this.updateBookInShelf}
+								/>
+							)
+						}
 						<div className="open-search">
 							<Link to="/search">Add Abook</Link>
 						</div>
@@ -104,7 +106,7 @@ class BooksApp extends React.Component {
 					render={() => (
 						<SearchBook
 							updateFilteredBooks={this.updateFilteredBooks}
-							bookList={this.state.filteredBooks}
+							bookList={filteredBooks}
 							moveBook={this.updateBookInSearch}
 						/>
 					)}
@@ -114,4 +116,9 @@ class BooksApp extends React.Component {
 	}
 }
 
+
+BooksApp.propTypes = {
+	books: PropTypes.array,
+	filteredBooks: PropTypes.array
+}
 export default BooksApp
