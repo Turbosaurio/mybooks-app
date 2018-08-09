@@ -14,19 +14,20 @@ export default function BookSelect (props){
 		<div className="book-shelf-changer">
 			<select defaultValue={() => {
 				for(let option of options){
-					if(option.shelfKey === shelf){
+					if (option.shelfKey === shelf){
 						return shelf
 					}
 				}
 			}}>
 				<option disabled>Move to...</option>
 				{options.map((option, index) => {
-					if(shelf === option.shelfKey){
-						return <option value={option.shelfKey} key={index}>&#9755; {option.label}</option>
-					}
-					else {
-						return <option value={option.shelfKey} key={index} onClick={()=> moveBook(id, option.shelfKey) }>{option.label}</option>
-					}
+					
+						if(shelf === option.shelfKey){
+							return <option value={option.shelfKey} key={index}>&#9755; {option.label}</option>
+						} else{
+							return <option value={option.shelfKey} key={index} onClick={()=> moveBook(id, option.shelfKey) }>{option.label}</option>							
+						}
+					
 				})}
 			</select>
 		</div>

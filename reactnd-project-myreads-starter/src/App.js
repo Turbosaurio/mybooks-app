@@ -49,6 +49,14 @@ class BooksApp extends React.Component {
 			BooksAPI.search(query)
 				.then(results => {
 					if(results.error !== 'empty query'){
+						for(let result of results){
+							for(let book of this.state.books){								
+								if (result.id === book.id){
+									result.shelf = book.shelf
+									console.log(`FOUND BOOK ${book.title} IN SHELF: ${book.shelf}`)
+								}
+							}
+						}
 						this.setState({filteredBooks: results })
 					} else {
 						this.setState({filteredBooks: [] })
@@ -74,9 +82,9 @@ class BooksApp extends React.Component {
 	render() {
 		let {books, filteredBooks} = this.state
 		const shelves = [
-			['Currently Reading', 'currentlyReading'],
-			['Want to Read', 'wantToRead'],
-			['Read', 'read']
+			{label: "Currently Reading", shelfKey: "currentlyReading"},
+			{label: "Want to Read", shelfKey: "wantToRead"},
+			{label: "Read", shelfKey: 'read'},
 		]
 		return (
 			<div className="app">
@@ -90,8 +98,8 @@ class BooksApp extends React.Component {
 								<BookShelf 
 									key={index}
 									bookList={books}
-									shelfTitle={shelf[0]}
-									keyName={shelf[1]}
+									shelfTitle={shelf.label}
+									keyName={shelf.shelfKey}
 									moveBook={this.updateBookInShelf}
 								/>
 							)

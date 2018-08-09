@@ -5,7 +5,7 @@ import Book from './Book'
 export default function BookList (props) {
 	const {contents, keyName, shelvesNames, all, moveBook} = props;
 	let filtered_list = []
-	if(all === false){
+	if(all === false && keyName){
 		filtered_list = contents.filter((book) => book.shelf === keyName)
 	} else {
 		filtered_list = contents
