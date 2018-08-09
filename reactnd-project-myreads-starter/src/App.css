@@ -212,7 +212,10 @@ body, .app {
   color: rgb(200,200,200);
 }
 
-option.current-book{
+option:selected{
+  &:before{
+    content: "&9755";
+  }
   background-color: rgb(100,100,100);
   color: white;
 }
